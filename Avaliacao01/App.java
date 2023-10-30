@@ -43,12 +43,12 @@ public class App {
                 2 - Consultar Perfil
                 3 - Exibir Perfis
                 4 - Incluir Postagem
-                4 - Consultar Postagem
-                5 - Curtir Postagem
-                6 - Descurtir Postagem
-                7 - Decrementar Visualizacoes
-                8 - Exibir postagens por Perfil
-                9 - Exibir postagens por Hashtag
+                5 - Consultar Postagem
+                6 - Curtir Postagem
+                7 - Descurtir Postagem
+                8 - Decrementar Visualizacoes
+                9 - Exibir postagens por Perfil
+                10 - Exibir postagens por Hashtag
                 0 - Sair
                 """;
     }

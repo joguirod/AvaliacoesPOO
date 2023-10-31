@@ -7,15 +7,12 @@ import Avaliacao01.Entidades.PostagemAvancada;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class App {
     private static RedeSocial redeSocial = new RedeSocial();
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         int opcao = -1;
         System.out.println("-------------------- Bem vindo! --------------------");
@@ -68,7 +65,7 @@ public class App {
                 5 - Consultar Postagem
                 6 - Curtir Postagem
                 7 - Descurtir Postagem
-                8 - Decrementar Visualizacoes
+                8 - Decrementar Visualizações
                 9 - Exibir postagens por Perfil
                 10 - Exibir postagens por Hashtag
                 0 - Sair
@@ -92,7 +89,7 @@ public class App {
     }
 
     public static void consultarPerfil(){
-        System.out.println("Qual o id do perfil a ser consultado?");
+        System.out.println("> Qual o id do perfil a ser consultado?");
         int id = scanner.nextInt();
         System.out.println("Perfil desejado: " + redeSocial.consultarPerfil(id).toString());
     }
@@ -105,36 +102,36 @@ public class App {
     }
 
     public static void incluirPostagem(){
-        System.out.println("Qual o id do usuário autor da postagem? (Caso nao se lembre, use a opção 3)");
+        System.out.println("> Qual o id do usuário autor da postagem? (Caso nao se lembre, use a opção 3)");
         int idPerfil = scanner.nextInt();
         scanner.nextLine();
         Perfil perfil = redeSocial.consultarPerfil(idPerfil);
 
-        System.out.println("Insira o id da postagem: ");
+        System.out.println("> Insira o id da postagem: ");
         int idPostagem = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Insira o texto da postagem: ");
+        System.out.println("> Insira o texto da postagem: ");
         String texto = scanner.nextLine();
-        System.out.println("Insira a data da postagem no formato yyyy-MM-dd: ");
+        System.out.println("> Insira a data da postagem no formato yyyy-MM-dd: ");
         String data = scanner.nextLine();
-        System.out.println("Qual o tipo da postagem? \n\tP - postagem normal\tPA - postagem avançada");
+        System.out.println("> Qual o tipo da postagem? \n\tP - postagem normal\tPA - postagem avançada");
         String tipo = scanner.nextLine();
         if (tipo.equals("PA")) {
-            System.out.println("Quantas visualizações a publicação pode ter?");
+            System.out.println("> Quantas visualizações a publicação pode ter?");
             int visualizacoes = scanner.nextInt();
-            System.out.println("Quantas hashtags tem a postagem?");
+            System.out.println("> Quantas hashtags tem a postagem?");
             int n = scanner.nextInt();
             scanner.nextLine();
-            List<String> hashtags = new ArrayList<String>();
+            List<String> hashtags = new ArrayList<>();
             for (int count = 0; count < n; count++) {
-                System.out.println("Escreva a hashtag: ");
+                System.out.println("> Escreva a hashtag: ");
                 String hashtag = scanner.nextLine();
                 hashtags.add(hashtag);
             }
             PostagemAvancada postagem = new PostagemAvancada(texto, perfil, data, idPostagem, hashtags, visualizacoes);
             if(redeSocial.incluirPostagem(postagem)){
                 perfil.adicionarPostagem(postagem);
-                System.out.println("Postagem incluida com sucesso!");
+                System.out.println("Postagem incluída com sucesso!");
             } else {
                 System.out.println("Postagem NÃO adicionada :(");
             }
@@ -142,7 +139,7 @@ public class App {
             Postagem postagem = new Postagem(texto, perfil, data, idPostagem);
             if(redeSocial.incluirPostagem(postagem)){
                 perfil.adicionarPostagem(postagem);
-                System.out.println("Postagem incluida com sucesso!");
+                System.out.println("Postagem incluída com sucesso!");
             } else {
                 System.out.println("Postagem NÃO adicionada :(");
             }
@@ -194,7 +191,7 @@ public class App {
     }
 
     public static void meuContinue(){
-        System.out.print("Pressione Enter para continuar...");
+        System.out.print("> Pressione <QualquerTecla> para continuar...");
         scanner.nextLine();
         scanner.nextLine();
     }

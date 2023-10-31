@@ -14,8 +14,8 @@ public class PostagemAvancada extends Postagem{
         this.visualizacoesRestantes = visualizacoesRestantes;
     }
 
-    public PostagemAvancada(String texto, Perfil perfil, String data, List<String> hashtags, int visualizacoesRestantes) {
-        super(texto, perfil, data);
+    public PostagemAvancada(String texto, Perfil perfil, String data, int id, List<String> hashtags, int visualizacoesRestantes) {
+        super(texto, perfil, data, id);
         this.hashtags = hashtags;
         this.visualizacoesRestantes = visualizacoesRestantes;
     }
@@ -41,5 +41,12 @@ public class PostagemAvancada extends Postagem{
 
     public int getVisualizacoesRestantes() {
         return visualizacoesRestantes;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()
+                + "\nHashtags: " + getHashtags().toString()
+                + "\nVisualizações restantes: " + getVisualizacoesRestantes();
     }
 }

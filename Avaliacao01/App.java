@@ -4,9 +4,7 @@ import Avaliacao01.Entidades.Perfil;
 import Avaliacao01.Entidades.Postagem;
 import Avaliacao01.Entidades.PostagemAvancada;
 
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.text.DateFormat;
@@ -40,6 +38,12 @@ public class App {
                     break;
                 case 4:
                     incluirPostagem();
+                    break;
+                case 5:
+                    consultarPostagem();
+                    break;
+                case 9:
+                    exibirPostagensPorPerfil();
                     break;
                 default:
                     if(opcao != 0){
@@ -81,7 +85,7 @@ public class App {
         String email = scanner.nextLine();
         Perfil perfil = new Perfil(nome, email, id);
         if(redeSocial.incluirPerfil(perfil)){
-            System.out.println("Conta incluida na rede social com sucesso!");
+            System.out.println("Conta incluída na rede social com sucesso!");
         } else {
             System.out.println("Uma conta com esses atributos já existe! Tente com novos atributos.");
         }
@@ -102,9 +106,13 @@ public class App {
 
     public static void incluirPostagem(){
         System.out.println("Qual o id do usuário autor da postagem? (Caso nao se lembre, use a opção 3)");
-        int id = scanner.nextInt();
+        int idPerfil = scanner.nextInt();
         scanner.nextLine();
-        Perfil perfil = redeSocial.consultarPerfil(id);
+        Perfil perfil = redeSocial.consultarPerfil(idPerfil);
+
+        System.out.println("Insira o id da postagem: ");
+        int idPostagem = scanner.nextInt();
+        scanner.nextLine();
         System.out.println("Insira o texto da postagem: ");
         String texto = scanner.nextLine();
         System.out.println("Insira a data da postagem no formato yyyy-MM-dd: ");
@@ -116,13 +124,14 @@ public class App {
             int visualizacoes = scanner.nextInt();
             System.out.println("Quantas hashtags tem a postagem?");
             int n = scanner.nextInt();
+            scanner.nextLine();
             List<String> hashtags = new ArrayList<String>();
             for (int count = 0; count < n; count++) {
                 System.out.println("Escreva a hashtag: ");
                 String hashtag = scanner.nextLine();
                 hashtags.add(hashtag);
             }
-            PostagemAvancada postagem = new PostagemAvancada(texto, perfil, data, hashtags, visualizacoes);
+            PostagemAvancada postagem = new PostagemAvancada(texto, perfil, data, idPostagem, hashtags, visualizacoes);
             if(redeSocial.incluirPostagem(postagem)){
                 perfil.adicionarPostagem(postagem);
                 System.out.println("Postagem incluida com sucesso!");
@@ -130,13 +139,33 @@ public class App {
                 System.out.println("Postagem NÃO adicionada :(");
             }
         } else{
-            Postagem postagem = new Postagem(texto, perfil, data);
+            Postagem postagem = new Postagem(texto, perfil, data, idPostagem);
             if(redeSocial.incluirPostagem(postagem)){
                 perfil.adicionarPostagem(postagem);
                 System.out.println("Postagem incluida com sucesso!");
             } else {
                 System.out.println("Postagem NÃO adicionada :(");
             }
+        }
+    }
+
+    public static void consultarPostagem(){
+        System.out.println("> Qual o id da postagem? ");
+        int idPostagem = scanner.nextInt();
+        Postagem postagem = redeSocial.consultarPostagem(idPostagem);
+        if(postagem != null){
+            if(postagem instanceof PostagemAvancada){
+                if(((PostagemAvancada) postagem).podeExibir()){
+                    ((PostagemAvancada) postagem).decrementarVisualizacoes();
+                    System.out.println(postagem);
+                } else {
+                    System.out.println("Postagem não possui mais visualizações restantes!");
+                }
+            } else {
+                System.out.println(postagem);
+            }
+        } else {
+            System.out.println("Postagem não encontrada!");
         }
     }
 
@@ -148,8 +177,17 @@ public class App {
 
 
 
+    public static void exibirPostagensPorPerfil(){
+        System.out.println("> Insira o id do perfil: ");
+        int idPerfil = scanner.nextInt();
+        scanner.nextLine();
 
-
+        List<Postagem> postagens = redeSocial.exibirPostagensPorPerfil(idPerfil);
+        for (Postagem postagem:
+             postagens) {
+            System.out.println(postagem);
+        }
+    }
 
     public static void meuCtrlL(){
         System.out.println("\n".repeat(20));
@@ -157,6 +195,7 @@ public class App {
 
     public static void meuContinue(){
         System.out.print("Pressione Enter para continuar...");
+        scanner.nextLine();
         scanner.nextLine();
     }
 }

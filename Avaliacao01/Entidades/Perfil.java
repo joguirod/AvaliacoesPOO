@@ -8,8 +8,8 @@ public class Perfil {
     private int id;
     private String nome;
     private String email;
-
     private List<Postagem> postagens = new ArrayList<Postagem>();
+
     public Perfil(String nome, String email, int id) {
         this.nome = nome;
         this.email = email;
@@ -40,6 +40,7 @@ public class Perfil {
     public String toString() {
         return getId() + ", "
                 + getNome() + ", "
-                + getEmail();
+                + getEmail() + ", "
+                + "Postagens associadas: " + getPostagens().size();
     }
 }

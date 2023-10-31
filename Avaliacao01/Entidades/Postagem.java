@@ -1,17 +1,18 @@
 package Avaliacao01.Entidades;
 
 public class Postagem {
-    static private int id;
+    private int id;
     private String texto;
     private int curtidas = 0;
     private int descurtidas = 0;
     private String data; // Formato yyyy-MM-dd
     private Perfil perfil;
 
-    public Postagem(String texto, Perfil perfil, String data) {
+    public Postagem(String texto, Perfil perfil, String data, int id) {
         this.texto = texto;
         this.perfil = perfil;
         this.data = data;
+        this.id = id;
     }
 
     public Postagem(String texto, int curtidas, int descurtidas, String data, Perfil perfil) {
@@ -35,7 +36,7 @@ public class Postagem {
         return curtidas > 1.5 * descurtidas;
     }
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 
@@ -57,5 +58,15 @@ public class Postagem {
 
     public Perfil getPerfil() {
         return perfil;
+    }
+
+    @Override
+    public String toString() {
+        return "ID Perfil: " + getPerfil().getId()
+                + "\nID Postagem: " + getId()
+                + "\nTexto: " + getTexto()
+                + "\nCurtidas: " + getCurtidas()
+                + "\nDescurtidas: " + getDescurtidas()
+                +  "\nData: " + getData();
     }
 }

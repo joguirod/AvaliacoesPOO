@@ -36,6 +36,9 @@ public class RedeSocial {
         return false;
     }
 
+    public Postagem consultarPostagem(int id){
+        return repositorioDePostagens.consultarPostagem(id);
+    }
     public List<Postagem> consultarPostagens(int id, String texto, Perfil perfil){
         return repositorioDePostagens.consultarPostagemCompleto(id, texto, perfil);
     }
@@ -79,6 +82,9 @@ public class RedeSocial {
                 postagensFiltradas.add(postagem);
                 ((PostagemAvancada) postagem).decrementarVisualizacoes();
             }
+            else if (!(postagem instanceof PostagemAvancada)) {
+                postagensFiltradas.add(postagem);
+            }
         }
         return postagensFiltradas;
     }
@@ -86,13 +92,11 @@ public class RedeSocial {
     public List<PostagemAvancada> exibirPostagensPorHashtags(String hashtag){
         List<PostagemAvancada> postagensDoPerfil = repositorioDePostagens.consultarPostagemPorHashtag(hashtag);
         List<PostagemAvancada> postagensFiltradas = new ArrayList<PostagemAvancada>();
-        for (Postagem postagem:
+        for (PostagemAvancada postagem:
                 postagensDoPerfil) {
-            if(postagem instanceof PostagemAvancada){
-                ((PostagemAvancada) postagem).decrementarVisualizacoes();
-            }
-            if(((PostagemAvancada)postagem).podeExibir()){
-                postagensFiltradas.add((PostagemAvancada)postagem);
+            if(postagem.podeExibir()){
+                postagensFiltradas.add(postagem);
+                postagem.decrementarVisualizacoes();
             }
         }
         return postagensFiltradas;

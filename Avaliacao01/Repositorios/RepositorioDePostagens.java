@@ -25,6 +25,7 @@ public class RepositorioDePostagens {
     }
 
     public List<Postagem> consultarPostagemPorPerfil(Perfil perfil){
+        /*
         List<Postagem> postagensDesejadas = new ArrayList<Postagem>();
         for (Postagem postagem:
              postagens) {
@@ -33,6 +34,9 @@ public class RepositorioDePostagens {
             }
         }
         return postagensDesejadas;
+         */
+
+        return perfil.getPostagens();
     }
 
     public List<PostagemAvancada> consultarPostagemPorHashtag(String hashtag){
@@ -40,7 +44,7 @@ public class RepositorioDePostagens {
         for (Postagem postagem:
              postagens) {
             if(postagem instanceof PostagemAvancada){
-                if(((PostagemAvancada) postagem).existeHashtag(hashtag)){
+                if (((PostagemAvancada) postagem).existeHashtag(hashtag)) {
                     postagensDesejadas.add((PostagemAvancada) postagem);
                 }
             }

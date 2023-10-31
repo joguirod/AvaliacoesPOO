@@ -1,6 +1,7 @@
 package Avaliacao01;
 
 import Avaliacao01.Entidades.Perfil;
+import Avaliacao01.Entidades.Postagem;
 import Avaliacao01.Entidades.PostagemAvancada;
 
 import java.text.DateFormatSymbols;
@@ -19,7 +20,12 @@ public class App {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         int opcao = -1;
+        System.out.println("-------------------- Bem vindo! --------------------");
         do {
+            System.out.println(menu());
+            System.out.println("Digite uma opção: ");
+            opcao = scanner.nextInt();
+            scanner.nextLine();
             switch (opcao) {
                 case 1:
                     incluirPerfil();
@@ -29,15 +35,20 @@ public class App {
                     break;
                 case 3:
                     exibirPerfis();
+                    break;
                 case 4:
                     incluirPostagem();
                     break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
             }
+            System.out.println("----------------------------------------------------");
         } while (opcao != 0);
 
     }
 
-    public String menu(){
+    public static String menu(){
         return """
                 1 - Incluir Perfil
                 2 - Consultar Perfil
@@ -78,6 +89,7 @@ public class App {
     public static void incluirPostagem(){
         System.out.println("Qual o id do usuário autor da postagem? (Caso nao se lembre, use a opção 3");
         int id = scanner.nextInt();
+        scanner.nextLine();
         Perfil perfil = redeSocial.consultarPerfil(id);
         System.out.println("Insira o texto da postagem: ");
         String texto = scanner.nextLine();
@@ -97,6 +109,10 @@ public class App {
                 hashtags.add(hashtag);
             }
             PostagemAvancada postagem = new PostagemAvancada(texto, perfil, data, hashtags, visualizacoes);
+            redeSocial.incluirPostagem(postagem);
+        } else{
+            Postagem postagem = new Postagem(texto, perfil, data);
+            redeSocial.incluirPostagem(postagem);
         }
     }
 }

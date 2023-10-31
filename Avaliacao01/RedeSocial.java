@@ -9,13 +9,15 @@ import Avaliacao01.Repositorios.RepositorioDePostagens;
 import java.util.List;
 import java.util.ArrayList;
 public class RedeSocial {
-    private RepositorioDePerfis repositorioDePerfis;
-    private RepositorioDePostagens repositorioDePostagens;
+    private RepositorioDePerfis repositorioDePerfis = new RepositorioDePerfis();
+    private RepositorioDePostagens repositorioDePostagens = new RepositorioDePostagens();
 
-    public void incluirPerfil(Perfil perfil){
+    public boolean incluirPerfil(Perfil perfil){
         if(repositorioDePerfis.consultarPerfil(perfil.getId(), perfil.getNome(), perfil.getEmail()) == null){
             repositorioDePerfis.incluir(perfil);
+            return true;
         }
+        return false;
     }
     public Perfil consultarPerfil(int id){
         return repositorioDePerfis.consultarPerfil(id);
@@ -25,10 +27,12 @@ public class RedeSocial {
         return repositorioDePerfis.getPerfis();
     }
 
-    public void incluirPostagem(Postagem postagem){
+    public boolean incluirPostagem(Postagem postagem){
         if(repositorioDePostagens.consultarPostagem(postagem.getId()) == null){
             repositorioDePostagens.incluir(postagem);
+            return true;
         }
+        return false;
     }
 
     public List<Postagem> consultarPostagens(int id, String texto, Perfil perfil){
@@ -38,20 +42,30 @@ public class RedeSocial {
         return repositorioDePostagens.consultarPostagemAvancadaCompleto(id, texto, hashtag, perfil);
     }
 
-    public void curtir(int idPostagem){
+    public boolean curtir(int idPostagem){
         Postagem postagem = repositorioDePostagens.consultarPostagem(idPostagem);
-        postagem.curtir();
+        if(postagem != null){
+            postagem.curtir();
+            return true;
+        }
+        return false;
     }
 
-    public void descurtir(int idPostagem){
+    public boolean descurtir(int idPostagem){
         Postagem postagem = repositorioDePostagens.consultarPostagem(idPostagem);
-        postagem.descurtir();
+        if (postagem != null){
+            postagem.descurtir();
+            return true;
+        }
+        return false;
     }
 
-    public void decrementarVisualizacoes(PostagemAvancada postagem){
+    public boolean decrementarVisualizacoes(PostagemAvancada postagem){
         if(postagem.getVisualizacoesRestantes() - 1 > 0){
             postagem.decrementarVisualizacoes();
+            return true;
         }
+        return false;
     }
 
     public List<Postagem> exibirPostagensPorPerfil(int idPerfil){
@@ -60,11 +74,9 @@ public class RedeSocial {
         List<Postagem> postagensFiltradas = new ArrayList<Postagem>();
         for (Postagem postagem:
              postagensDoPerfil) {
-            if(postagem instanceof PostagemAvancada){
-                ((PostagemAvancada) postagem).decrementarVisualizacoes();
-            }
-            if(((PostagemAvancada)postagem).podeExibir()){
+            if(postagem instanceof PostagemAvancada && ((PostagemAvancada)postagem).podeExibir()){
                 postagensFiltradas.add(postagem);
+                ((PostagemAvancada) postagem).decrementarVisualizacoes();
             }
         }
         return postagensFiltradas;

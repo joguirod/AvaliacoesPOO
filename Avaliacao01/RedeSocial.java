@@ -12,6 +12,7 @@ public class RedeSocial {
     private RepositorioDePerfis repositorioDePerfis = new RepositorioDePerfis();
     private RepositorioDePostagens repositorioDePostagens = new RepositorioDePostagens();
 
+
     public boolean incluirPerfil(Perfil perfil){
         if(repositorioDePerfis.consultarPerfil(perfil.getId(), perfil.getNome(), perfil.getEmail()) == null){
             repositorioDePerfis.incluir(perfil);

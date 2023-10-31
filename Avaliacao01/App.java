@@ -26,6 +26,8 @@ public class App {
             System.out.println("Digite uma opção: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
+            meuCtrlL();
+
             switch (opcao) {
                 case 1:
                     incluirPerfil();
@@ -40,12 +42,17 @@ public class App {
                     incluirPostagem();
                     break;
                 default:
-                    System.out.println("Opção inválida!");
+                    if(opcao != 0){
+                        System.out.println("Opção inválida!");
+                    }
                     break;
             }
-            System.out.println("----------------------------------------------------");
+            if(opcao != 0){
+                meuContinue();
+                System.out.println("----------------------------------------------------");
+            }
         } while (opcao != 0);
-
+        System.out.println("Tchau bb :)");
     }
 
     public static String menu(){
@@ -65,12 +72,19 @@ public class App {
     }
 
     public static void incluirPerfil(){
+        System.out.println("> Qual o id do perfil?");
+        int id = scanner.nextInt();
+        scanner.nextLine();
         System.out.println("> Qual o nome do perfil?");
         String nome = scanner.nextLine();
         System.out.println("> Qual o email do perfil?");
         String email = scanner.nextLine();
-        Perfil perfil = new Perfil(nome, email);
-        redeSocial.incluirPerfil(perfil);
+        Perfil perfil = new Perfil(nome, email, id);
+        if(redeSocial.incluirPerfil(perfil)){
+            System.out.println("Conta incluida na rede social com sucesso!");
+        } else {
+            System.out.println("Uma conta com esses atributos já existe! Tente com novos atributos.");
+        }
     }
 
     public static void consultarPerfil(){
@@ -87,7 +101,7 @@ public class App {
     }
 
     public static void incluirPostagem(){
-        System.out.println("Qual o id do usuário autor da postagem? (Caso nao se lembre, use a opção 3");
+        System.out.println("Qual o id do usuário autor da postagem? (Caso nao se lembre, use a opção 3)");
         int id = scanner.nextInt();
         scanner.nextLine();
         Perfil perfil = redeSocial.consultarPerfil(id);
@@ -109,10 +123,40 @@ public class App {
                 hashtags.add(hashtag);
             }
             PostagemAvancada postagem = new PostagemAvancada(texto, perfil, data, hashtags, visualizacoes);
-            redeSocial.incluirPostagem(postagem);
+            if(redeSocial.incluirPostagem(postagem)){
+                perfil.adicionarPostagem(postagem);
+                System.out.println("Postagem incluida com sucesso!");
+            } else {
+                System.out.println("Postagem NÃO adicionada :(");
+            }
         } else{
             Postagem postagem = new Postagem(texto, perfil, data);
-            redeSocial.incluirPostagem(postagem);
+            if(redeSocial.incluirPostagem(postagem)){
+                perfil.adicionarPostagem(postagem);
+                System.out.println("Postagem incluida com sucesso!");
+            } else {
+                System.out.println("Postagem NÃO adicionada :(");
+            }
         }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public static void meuCtrlL(){
+        System.out.println("\n".repeat(20));
+    }
+
+    public static void meuContinue(){
+        System.out.print("Pressione Enter para continuar...");
+        scanner.nextLine();
     }
 }

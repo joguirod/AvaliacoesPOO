@@ -2,23 +2,25 @@ package Avaliacao01.Entidades;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
+
 public class Perfil {
-    static private int id;
+    private int id;
     private String nome;
     private String email;
 
     private List<Postagem> postagens = new ArrayList<Postagem>();
-    public Perfil(String nome, String email) {
+    public Perfil(String nome, String email, int id) {
         this.nome = nome;
         this.email = email;
-        id++;
+        this.id = id;
     }
 
     public void adicionarPostagem(Postagem postagem){
         postagens.add(postagem);
     }
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 

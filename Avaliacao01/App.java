@@ -7,6 +7,7 @@ import Avaliacao01.Entidades.PostagemAvancada;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.*;
 
 public class App {
     private static RedeSocial redeSocial = new RedeSocial();
@@ -15,16 +16,27 @@ public class App {
     public static void main(String[] args) {
 
         int opcao = -1;
-        System.out.println("-------------------- Bem vindo! --------------------");
+        System.out.println("|---------------------------------------------------|");
+        System.out.println("|------------------- Bem vindo!! -------------------|");
         do {
             System.out.println(menu());
-            System.out.println("Digite uma opção: ");
+            System.out.println("> Digite uma opção: ");
             opcao = scanner.nextInt();
+
             scanner.nextLine();
-            meuCtrlL();
+            meuCtrlL(20);
 
             switch (opcao) {
                 case 1:
+                    System.out.println("""
+                              X  X      XXXX
+                               X  X   XXXX
+                                X  XXXXXX
+                                 X  X            Inscreva-se hoje!
+                               XXXXX  X
+                             XXXX   X  X
+                            XXXX     X  X 
+                            """);
                     incluirPerfil();
                     break;
                 case 2:
@@ -50,7 +62,6 @@ public class App {
             }
             if(opcao != 0){
                 meuContinue();
-                System.out.println("----------------------------------------------------");
             }
         } while (opcao != 0);
         System.out.println("Tchau bb :)");
@@ -58,18 +69,19 @@ public class App {
 
     public static String menu(){
         return """
-                1 - Incluir Perfil
-                2 - Consultar Perfil
-                3 - Exibir Perfis
-                4 - Incluir Postagem
-                5 - Consultar Postagem
-                6 - Curtir Postagem
-                7 - Descurtir Postagem
-                8 - Decrementar Visualizações
-                9 - Exibir postagens por Perfil
-                10 - Exibir postagens por Hashtag
-                0 - Sair
-                """;
+                |---------------------------------------------------| 
+                | 1 - Incluir Perfil                                |
+                | 2 - Consultar Perfil                              |
+                | 3 - Exibir Perfis                                 |
+                | 4 - Incluir Postagem                              |
+                | 5 - Consultar Postagem                            |
+                | 6 - Curtir Postagem                               | 
+                | 7 - Descurtir Postagem                            |
+                | 8 - Decrementar Visualizações                     |
+                | 9 - Exibir postagens por Perfil                   |
+                | 10 - Exibir postagens por Hashtag                 |
+                | 0 - Sair                                          |
+                |---------------------------------------------------|""";
     }
 
     public static void incluirPerfil(){
@@ -186,8 +198,12 @@ public class App {
         }
     }
 
-    public static void meuCtrlL(){
-        System.out.println("\n".repeat(20));
+    public static void salvarEmArquivo(){
+        File filePerfis = new File("/Avaliacao01/perfis.txt");
+
+    }
+    public static void meuCtrlL(int qtdPulos){
+        System.out.println("\n".repeat(qtdPulos));
     }
 
     public static void meuContinue(){

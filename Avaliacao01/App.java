@@ -29,13 +29,13 @@ public class App {
             switch (opcao) {
                 case 1:
                     System.out.println("""
-                              X  X      XXXX
-                               X  X   XXXX
-                                X  XXXXXX
-                                 X  X            Inscreva-se hoje!
-                               XXXXX  X
-                             XXXX   X  X
-                            XXXX     X  X 
+                                  X  X      XXXX
+                                   X  X   XXXX
+                                    X  XXXXXX
+                                     X  X            Inscreva-se hoje!
+                                  XXXXX  X
+                                 XXXX  X  X
+                               XXXX     X  X 
                             """);
                     incluirPerfil();
                     break;

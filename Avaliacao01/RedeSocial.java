@@ -27,6 +27,9 @@ public class RedeSocial {
     public List<Perfil> perfisCadastrados(){
         return repositorioDePerfis.getPerfis();
     }
+    public List<Postagem> postagensCadastradas(){
+        return repositorioDePostagens.getPostagens();
+    }
 
     public boolean incluirPostagem(Postagem postagem){
         if(repositorioDePostagens.consultarPostagem(postagem.getId()) == null){

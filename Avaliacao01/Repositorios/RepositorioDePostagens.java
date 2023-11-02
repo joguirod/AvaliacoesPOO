@@ -89,4 +89,8 @@ public class RepositorioDePostagens {
         }
         return postagensDesejadas;
     }
+
+    public List<Postagem> getPostagens() {
+        return postagens;
+    }
 }

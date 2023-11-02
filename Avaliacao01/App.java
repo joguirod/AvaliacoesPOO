@@ -13,7 +13,7 @@ public class App {
     private static RedeSocial redeSocial = new RedeSocial();
     public static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         int opcao = -1;
         System.out.println("|---------------------------------------------------|");
@@ -38,21 +38,30 @@ public class App {
                                XXXX     X  X 
                             """);
                     incluirPerfil();
+                    meuContinue(1);
                     break;
                 case 2:
                     consultarPerfil();
+                    meuContinue(2);
                     break;
                 case 3:
                     exibirPerfis();
+                    meuContinue(1);
                     break;
                 case 4:
                     incluirPostagem();
+                    meuContinue(1);
                     break;
                 case 5:
                     consultarPostagem();
+                    meuContinue(2);
+                    break;
+                case 6:
+                    salvarEmArquivo();
                     break;
                 case 9:
                     exibirPostagensPorPerfil();
+                    meuContinue(1);
                     break;
                 default:
                     if(opcao != 0){
@@ -60,22 +69,20 @@ public class App {
                     }
                     break;
             }
-            if(opcao != 0){
-                meuContinue();
-            }
+            meuCtrlL(20);
         } while (opcao != 0);
         System.out.println("Tchau bb :)");
     }
 
     public static String menu(){
         return """
-                |---------------------------------------------------| 
+                |---------------------------------------------------|
                 | 1 - Incluir Perfil                                |
                 | 2 - Consultar Perfil                              |
                 | 3 - Exibir Perfis                                 |
                 | 4 - Incluir Postagem                              |
                 | 5 - Consultar Postagem                            |
-                | 6 - Curtir Postagem                               | 
+                | 6 - Curtir Postagem                               |
                 | 7 - Descurtir Postagem                            |
                 | 8 - Decrementar Visualizações                     |
                 | 9 - Exibir postagens por Perfil                   |
@@ -89,9 +96,9 @@ public class App {
         int id = scanner.nextInt();
         scanner.nextLine();
         System.out.println("> Qual o nome do perfil?");
-        String nome = scanner.nextLine();
+        String nome = scanner.nextLine().trim();
         System.out.println("> Qual o email do perfil?");
-        String email = scanner.nextLine();
+        String email = scanner.nextLine().trim();
         Perfil perfil = new Perfil(nome, email, id);
         if(redeSocial.incluirPerfil(perfil)){
             System.out.println("Conta incluída na rede social com sucesso!");
@@ -123,11 +130,11 @@ public class App {
         int idPostagem = scanner.nextInt();
         scanner.nextLine();
         System.out.println("> Insira o texto da postagem: ");
-        String texto = scanner.nextLine();
+        String texto = scanner.nextLine().trim();
         System.out.println("> Insira a data da postagem no formato yyyy-MM-dd: ");
-        String data = scanner.nextLine();
+        String data = scanner.nextLine().trim();
         System.out.println("> Qual o tipo da postagem? \n\tP - postagem normal\tPA - postagem avançada");
-        String tipo = scanner.nextLine();
+        String tipo = scanner.nextLine().trim();
         if (tipo.equals("PA")) {
             System.out.println("> Quantas visualizações a publicação pode ter?");
             int visualizacoes = scanner.nextInt();
@@ -137,7 +144,7 @@ public class App {
             List<String> hashtags = new ArrayList<>();
             for (int count = 0; count < n; count++) {
                 System.out.println("> Escreva a hashtag: ");
-                String hashtag = scanner.nextLine();
+                String hashtag = scanner.nextLine().trim();
                 hashtags.add(hashtag);
             }
             PostagemAvancada postagem = new PostagemAvancada(texto, perfil, data, idPostagem, hashtags, visualizacoes);
@@ -147,7 +154,7 @@ public class App {
             } else {
                 System.out.println("Postagem NÃO adicionada :(");
             }
-        } else{
+        } else if (tipo.equals("P")){
             Postagem postagem = new Postagem(texto, perfil, data, idPostagem);
             if(redeSocial.incluirPostagem(postagem)){
                 perfil.adicionarPostagem(postagem);
@@ -155,6 +162,8 @@ public class App {
             } else {
                 System.out.println("Postagem NÃO adicionada :(");
             }
+        } else {
+            System.out.println("Tipo inválido! Postagem não será adicionada");
         }
     }
 
@@ -198,17 +207,43 @@ public class App {
         }
     }
 
-    public static void salvarEmArquivo(){
-        File filePerfis = new File("/Avaliacao01/perfis.txt");
+    public static void salvarEmArquivo() throws IOException {
+        File filePerfis = new File("C:\\Users\\José Guilherme\\Documents\\AvaliacoesPOO\\Avaliacao01\\perfis.txt");
+        File filePostagens = new File("C:\\Users\\José Guilherme\\Documents\\AvaliacoesPOO\\Avaliacao01\\postagens.txt");
+        FileWriter fileWriterPerfis = new FileWriter(filePerfis);
+        FileWriter fileWriterPostagens = new FileWriter(filePostagens);
+
+        for (Perfil perfil:
+                redeSocial.perfisCadastrados()) {
+            String conteudo = String.join("&&", String.valueOf(perfil.getId()), perfil.getNome(), perfil.getEmail());
+            fileWriterPerfis.write(conteudo + '\n');
+        }
+        fileWriterPerfis.close();
+
+        for (Postagem postagem:
+             redeSocial.postagensCadastradas()) {
+            String conteudo = String.join("&&", String.valueOf(postagem.getPerfil().getId()),
+                    String.valueOf(postagem.getId()), postagem.getTexto(), String.valueOf(postagem.getCurtidas()),
+                    String.valueOf(postagem.getDescurtidas()), postagem.getData());
+            if (!(postagem instanceof PostagemAvancada)){
+                conteudo += "&&P\n";
+            } else {
+                conteudo += "&&PA&&" + ((PostagemAvancada) postagem).getVisualizacoesRestantes() + "&&" +
+                        ((PostagemAvancada) postagem).getHashtags() + '\n';
+            }
+            fileWriterPostagens.write(conteudo);
+        }
+        fileWriterPostagens.close();
 
     }
     public static void meuCtrlL(int qtdPulos){
         System.out.println("\n".repeat(qtdPulos));
     }
 
-    public static void meuContinue(){
+    public static void meuContinue(int qtdTecladas){
         System.out.print("> Pressione <QualquerTecla> para continuar...");
-        scanner.nextLine();
-        scanner.nextLine();
+        for (int i = 0; i < qtdTecladas; i++) {
+            scanner.nextLine();
+        }
     }
 }

@@ -14,6 +14,14 @@ public class Postagem {
         this.data = data;
         this.id = id;
     }
+    public Postagem(String texto, Perfil perfil, String data, int id, int curtidas, int descurtidas) {
+        this.texto = texto;
+        this.perfil = perfil;
+        this.data = data;
+        this.id = id;
+        this.curtidas = curtidas;
+        this.descurtidas = descurtidas;
+    }
 
     public Postagem(String texto, int curtidas, int descurtidas, String data, Perfil perfil) {
         this.texto = texto;
@@ -21,7 +29,6 @@ public class Postagem {
         this.descurtidas = descurtidas;
         this.data = data;
         this.perfil = perfil;
-        id++;
     }
 
     public void curtir(){

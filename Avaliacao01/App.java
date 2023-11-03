@@ -5,6 +5,7 @@ import Avaliacao01.Entidades.Postagem;
 import Avaliacao01.Entidades.PostagemAvancada;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.io.*;
@@ -29,13 +30,20 @@ public class App {
             switch (opcao) {
                 case 1:
                     System.out.println("""
-                                  X  X      XXXX
-                                   X  X   XXXX
-                                    X  XXXXXX
-                                     X  X            Inscreva-se hoje!
-                                  XXXXX  X
-                                 XXXX  X  X
-                               XXXX     X  X 
+                                            ########              ####             \s
+                                            ####    ##          ####               \s
+                                              ##    ####      ####                 \s
+                                                ##    ##    ####                   \s
+                                                  ##    ######                     \s
+                                                    ##    ##          Inscreva-se hoje!               \s
+                                                    ##      ##                     \s
+                                                      ##    ####                   \s
+                                                    ##  ##    ##                   \s
+                                                  ##      ##    ##                 \s
+                                                ##        ####    ##               \s
+                                              ##            ##    ####             \s
+                                            ##                ########             \s
+                                            
                             """);
                     incluirPerfil();
                     meuContinue(1);
@@ -199,7 +207,6 @@ public class App {
         System.out.println("> Insira o id do perfil: ");
         int idPerfil = scanner.nextInt();
         scanner.nextLine();
-
         List<Postagem> postagens = redeSocial.exibirPostagensPorPerfil(idPerfil);
         for (Postagem postagem:
              postagens) {
@@ -208,8 +215,8 @@ public class App {
     }
 
     public static void salvarEmArquivo() throws IOException {
-        File filePerfis = new File("C:\\Users\\José Guilherme\\Documents\\AvaliacoesPOO\\Avaliacao01\\perfis.txt");
-        File filePostagens = new File("C:\\Users\\José Guilherme\\Documents\\AvaliacoesPOO\\Avaliacao01\\postagens.txt");
+        File filePerfis = new File("Avaliacao01\\perfis.txt");
+        File filePostagens = new File("Avaliacao01\\postagens.txt");
         FileWriter fileWriterPerfis = new FileWriter(filePerfis);
         FileWriter fileWriterPostagens = new FileWriter(filePostagens);
 
@@ -228,14 +235,70 @@ public class App {
             if (!(postagem instanceof PostagemAvancada)){
                 conteudo += "&&P\n";
             } else {
+                String hashtags = "";
+                int tamanho = ((PostagemAvancada) postagem).getHashtags().size();
+                int count = 0;
+                for (String hashtag:
+                        ((PostagemAvancada) postagem).getHashtags()) {
+                    if(count != tamanho - 1){
+                        hashtags += hashtag + ",";
+                    } else {
+                        hashtags += hashtag;
+                    }
+                    count++;
+                }
                 conteudo += "&&PA&&" + ((PostagemAvancada) postagem).getVisualizacoesRestantes() + "&&" +
-                        ((PostagemAvancada) postagem).getHashtags() + '\n';
+                        hashtags + '\n';
             }
             fileWriterPostagens.write(conteudo);
         }
         fileWriterPostagens.close();
 
     }
+
+    public static void lerArquivo() throws IOException {
+        File filePerfis = new File("Avaliacao01\\perfis.txt");
+        File filePostagens = new File("Avaliacao01\\postagens.txt");
+        FileReader fileReaderPerfis = new FileReader(filePerfis);
+        FileReader fileReaderPostagens = new FileReader(filePostagens);
+        BufferedReader bufferedReaderPerfis = new BufferedReader(fileReaderPerfis);
+        BufferedReader bufferedReaderPostagens = new BufferedReader(fileReaderPostagens);
+
+        String linhaPerfis = bufferedReaderPerfis.readLine();
+        while(linhaPerfis != null){
+            String[] partes = linhaPerfis.split("&&");
+            int id = Integer.parseInt(partes[0]);
+            String nome = partes[1];
+            String email = partes[2];
+            Perfil perfil = new Perfil(nome, email, id);
+            redeSocial.incluirPerfil(perfil);
+            linhaPerfis = bufferedReaderPerfis.readLine();
+        }
+
+        String linhaPostagens = bufferedReaderPostagens.readLine();
+        while(linhaPostagens != null){
+            String[] partes = linhaPostagens.split("&&");
+            int idPerfil = Integer.parseInt(partes[0]);
+            Perfil perfil = redeSocial.consultarPerfil(idPerfil);
+            int idPostagem = Integer.parseInt(partes[1]);
+            String texto = partes[2];
+            int curtidas = Integer.parseInt(partes[3]);
+            int descurtidas = Integer.parseInt(partes[4]);
+            String data = partes[5];
+            String tipo = partes[6];
+            if(tipo == "P"){
+                Postagem postagem = new Postagem(texto, perfil, data, idPostagem, curtidas, descurtidas);
+                redeSocial.incluirPostagem(postagem);
+            } else {
+                int visualizacoesRestantes = Integer.parseInt(partes[7]);
+                List<String> hashtags = List.of(partes[8].split(","));
+                PostagemAvancada postagemAvancada = new PostagemAvancada(texto, perfil, data, idPostagem, curtidas,
+                        descurtidas, hashtags, visualizacoesRestantes);
+                redeSocial.incluirPostagem(postagemAvancada);
+            }
+        }
+    }
+
     public static void meuCtrlL(int qtdPulos){
         System.out.println("\n".repeat(qtdPulos));
     }

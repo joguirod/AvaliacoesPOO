@@ -14,6 +14,12 @@ public class PostagemAvancada extends Postagem{
         this.visualizacoesRestantes = visualizacoesRestantes;
     }
 
+    public PostagemAvancada(String texto, Perfil perfil, String data, int id, int curtidas, int descurtidas, List<String> hashtags, int visualizacoesRestantes) {
+        super(texto, perfil, data, id, curtidas, descurtidas);
+        this.hashtags = hashtags;
+        this.visualizacoesRestantes = visualizacoesRestantes;
+    }
+
     public PostagemAvancada(String texto, Perfil perfil, String data, int id, List<String> hashtags, int visualizacoesRestantes) {
         super(texto, perfil, data, id);
         this.hashtags = hashtags;

@@ -14,7 +14,7 @@ public class RedeSocial {
 
 
     public boolean incluirPerfil(Perfil perfil){
-        if(repositorioDePerfis.consultarPerfil(perfil.getId(), perfil.getNome(), perfil.getEmail()) == null){
+        if(repositorioDePerfis.consultarPerfil(perfil.getNome(), perfil.getEmail()) == null){
             repositorioDePerfis.incluir(perfil);
             return true;
         }
@@ -33,6 +33,8 @@ public class RedeSocial {
 
     public boolean incluirPostagem(Postagem postagem){
         if(repositorioDePostagens.consultarPostagem(postagem.getId()) == null){
+            Perfil perfil = postagem.getPerfil();
+            perfil.adicionarPostagem(postagem);
             repositorioDePostagens.incluir(postagem);
             return true;
         }

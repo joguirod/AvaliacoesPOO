@@ -14,14 +14,14 @@ public class PostagemAvancada extends Postagem{
         this.visualizacoesRestantes = visualizacoesRestantes;
     }
 
-    public PostagemAvancada(String texto, Perfil perfil, String data, int id, int curtidas, int descurtidas, List<String> hashtags, int visualizacoesRestantes) {
-        super(texto, perfil, data, id, curtidas, descurtidas);
+    public PostagemAvancada(String texto, Perfil perfil, String data, int curtidas, int descurtidas, List<String> hashtags, int visualizacoesRestantes) {
+        super(texto, perfil, data, curtidas, descurtidas);
         this.hashtags = hashtags;
         this.visualizacoesRestantes = visualizacoesRestantes;
     }
 
-    public PostagemAvancada(String texto, Perfil perfil, String data, int id, List<String> hashtags, int visualizacoesRestantes) {
-        super(texto, perfil, data, id);
+    public PostagemAvancada(String texto, Perfil perfil, String data, List<String> hashtags, int visualizacoesRestantes) {
+        super(texto, perfil, data);
         this.hashtags = hashtags;
         this.visualizacoesRestantes = visualizacoesRestantes;
     }
@@ -51,8 +51,19 @@ public class PostagemAvancada extends Postagem{
 
     @Override
     public String toString() {
+        String hashtagsString = "";
+        int count = 0;
+        for (String hashtag:
+             getHashtags()) {
+            if(getHashtags().size()-1 == count){
+                hashtagsString += "#"+hashtag;
+            } else{
+                hashtagsString += "#"+hashtag + ", ";
+            }
+            count++;
+        }
         return super.toString()
-                + "\nHashtags: " + getHashtags().toString()
+                + "\nHashtags: " + hashtagsString
                 + "\nVisualizações restantes: " + getVisualizacoesRestantes();
     }
 }

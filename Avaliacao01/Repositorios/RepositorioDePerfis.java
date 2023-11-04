@@ -21,10 +21,10 @@ public class RepositorioDePerfis {
         return null;
     }
 
-    public Perfil consultarPerfil(int id, String nome, String email){
+    public Perfil consultarPerfil(String nome, String email){
         for (Perfil perfil:
              perfis) {
-            if(perfil.getId() == id || perfil.getNome().equals(nome) || perfil.getEmail().equals(email)){
+            if(perfil.getNome().equals(nome) || perfil.getEmail().equals(email)){
                 return perfil;
             }
         }

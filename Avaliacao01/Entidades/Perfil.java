@@ -2,18 +2,19 @@ package Avaliacao01.Entidades;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Perfil {
+    private static int proximoId = 1;
     private int id;
     private String nome;
     private String email;
     private List<Postagem> postagens = new ArrayList<Postagem>();
 
-    public Perfil(String nome, String email, int id) {
+    public Perfil(String nome, String email) {
         this.nome = nome;
         this.email = email;
-        this.id = id;
+        this.id = proximoId;
+        proximoId++;
     }
 
     public void adicionarPostagem(Postagem postagem){

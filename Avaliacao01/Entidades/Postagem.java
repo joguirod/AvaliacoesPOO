@@ -1,6 +1,7 @@
 package Avaliacao01.Entidades;
 
 public class Postagem {
+    private static int proximoId = 1;
     private int id;
     private String texto;
     private int curtidas = 0;
@@ -8,19 +9,20 @@ public class Postagem {
     private String data; // Formato yyyy-MM-dd
     private Perfil perfil;
 
-    public Postagem(String texto, Perfil perfil, String data, int id) {
+    public Postagem(String texto, Perfil perfil, String data) {
         this.texto = texto;
         this.perfil = perfil;
         this.data = data;
-        this.id = id;
+        id = proximoId;
+        proximoId++;
     }
-    public Postagem(String texto, Perfil perfil, String data, int id, int curtidas, int descurtidas) {
+    public Postagem(String texto, Perfil perfil, String data, int curtidas, int descurtidas) {
         this.texto = texto;
         this.perfil = perfil;
         this.data = data;
-        this.id = id;
         this.curtidas = curtidas;
-        this.descurtidas = descurtidas;
+        id = proximoId;
+        proximoId++;
     }
 
     public Postagem(String texto, int curtidas, int descurtidas, String data, Perfil perfil) {
@@ -29,6 +31,8 @@ public class Postagem {
         this.descurtidas = descurtidas;
         this.data = data;
         this.perfil = perfil;
+        id = proximoId;
+        proximoId++;
     }
 
     public void curtir(){

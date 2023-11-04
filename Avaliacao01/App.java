@@ -5,7 +5,6 @@ import Avaliacao01.Entidades.Postagem;
 import Avaliacao01.Entidades.PostagemAvancada;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.io.*;
@@ -15,6 +14,9 @@ public class App {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
+
+        lerPerfisArquivo();
+        lerPostagensArquivo();
 
         int opcao = -1;
         System.out.println("|---------------------------------------------------|");
@@ -30,20 +32,19 @@ public class App {
             switch (opcao) {
                 case 1:
                     System.out.println("""
-                                            ########              ####             \s
-                                            ####    ##          ####               \s
-                                              ##    ####      ####                 \s
-                                                ##    ##    ####                   \s
-                                                  ##    ######                     \s
-                                                    ##    ##          Inscreva-se hoje!               \s
-                                                    ##      ##                     \s
-                                                      ##    ####                   \s
-                                                    ##  ##    ##                   \s
-                                                  ##      ##    ##                 \s
-                                                ##        ####    ##               \s
-                                              ##            ##    ####             \s
-                                            ##                ########             \s
-                                            
+                                ########              ####             \s
+                                ####    ##          ####               \s
+                                  ##    ####      ####                 \s
+                                    ##    ##    ####                   \s
+                                      ##    ######                     \s
+                                        ##    ##          Inscreva-se hoje!               \s
+                                        ##      ##                     \s
+                                          ##    ####                   \s
+                                        ##  ##    ##                   \s
+                                      ##      ##    ##                 \s
+                                    ##        ####    ##               \s
+                                  ##            ##    ####             \s
+                                ##                ########             \s
                             """);
                     incluirPerfil();
                     meuContinue(1);
@@ -64,9 +65,6 @@ public class App {
                     consultarPostagem();
                     meuContinue(2);
                     break;
-                case 6:
-                    salvarEmArquivo();
-                    break;
                 case 9:
                     exibirPostagensPorPerfil();
                     meuContinue(1);
@@ -79,6 +77,8 @@ public class App {
             }
             meuCtrlL(20);
         } while (opcao != 0);
+        salvarPerfisEmArquivo();
+        salvarPostagensEmArquivo();
         System.out.println("Tchau bb :)");
     }
 
@@ -100,16 +100,14 @@ public class App {
     }
 
     public static void incluirPerfil(){
-        System.out.println("> Qual o id do perfil?");
-        int id = scanner.nextInt();
-        scanner.nextLine();
         System.out.println("> Qual o nome do perfil?");
         String nome = scanner.nextLine().trim();
         System.out.println("> Qual o email do perfil?");
         String email = scanner.nextLine().trim();
-        Perfil perfil = new Perfil(nome, email, id);
+        Perfil perfil = new Perfil(nome, email);
         if(redeSocial.incluirPerfil(perfil)){
             System.out.println("Conta incluída na rede social com sucesso!");
+            System.out.printf("**(O id do perfil adicionado é %d)**\n", perfil.getId());
         } else {
             System.out.println("Uma conta com esses atributos já existe! Tente com novos atributos.");
         }
@@ -124,7 +122,7 @@ public class App {
     public static void exibirPerfis(){
         for (Perfil perfil:
                 redeSocial.perfisCadastrados()) {
-            System.out.println(perfil.toString());
+            System.out.println(perfil);
         }
     }
 
@@ -134,9 +132,6 @@ public class App {
         scanner.nextLine();
         Perfil perfil = redeSocial.consultarPerfil(idPerfil);
 
-        System.out.println("> Insira o id da postagem: ");
-        int idPostagem = scanner.nextInt();
-        scanner.nextLine();
         System.out.println("> Insira o texto da postagem: ");
         String texto = scanner.nextLine().trim();
         System.out.println("> Insira a data da postagem no formato yyyy-MM-dd: ");
@@ -155,18 +150,18 @@ public class App {
                 String hashtag = scanner.nextLine().trim();
                 hashtags.add(hashtag);
             }
-            PostagemAvancada postagem = new PostagemAvancada(texto, perfil, data, idPostagem, hashtags, visualizacoes);
+            PostagemAvancada postagem = new PostagemAvancada(texto, perfil, data, hashtags, visualizacoes);
             if(redeSocial.incluirPostagem(postagem)){
-                perfil.adicionarPostagem(postagem);
                 System.out.println("Postagem incluída com sucesso!");
+                System.out.printf("**(O id da postagem adicionada é %d)**\n", postagem.getId());
             } else {
                 System.out.println("Postagem NÃO adicionada :(");
             }
         } else if (tipo.equals("P")){
-            Postagem postagem = new Postagem(texto, perfil, data, idPostagem);
+            Postagem postagem = new Postagem(texto, perfil, data);
             if(redeSocial.incluirPostagem(postagem)){
-                perfil.adicionarPostagem(postagem);
                 System.out.println("Postagem incluída com sucesso!");
+                System.out.printf("**(O id da postagem adicionada é %d)**\n", postagem.getId());
             } else {
                 System.out.println("Postagem NÃO adicionada :(");
             }
@@ -214,24 +209,27 @@ public class App {
         }
     }
 
-    public static void salvarEmArquivo() throws IOException {
+    public static void salvarPerfisEmArquivo() throws IOException {
         File filePerfis = new File("Avaliacao01\\perfis.txt");
-        File filePostagens = new File("Avaliacao01\\postagens.txt");
         FileWriter fileWriterPerfis = new FileWriter(filePerfis);
-        FileWriter fileWriterPostagens = new FileWriter(filePostagens);
 
         for (Perfil perfil:
                 redeSocial.perfisCadastrados()) {
-            String conteudo = String.join("&&", String.valueOf(perfil.getId()), perfil.getNome(), perfil.getEmail());
+            String conteudo = String.join("&&", perfil.getNome(), perfil.getEmail());
             fileWriterPerfis.write(conteudo + '\n');
         }
         fileWriterPerfis.close();
+    }
+
+    public static void salvarPostagensEmArquivo() throws IOException {
+        File filePostagens = new File("Avaliacao01\\postagens.txt");
+        FileWriter fileWriterPostagens = new FileWriter(filePostagens);
 
         for (Postagem postagem:
-             redeSocial.postagensCadastradas()) {
-            String conteudo = String.join("&&", String.valueOf(postagem.getPerfil().getId()),
-                    String.valueOf(postagem.getId()), postagem.getTexto(), String.valueOf(postagem.getCurtidas()),
-                    String.valueOf(postagem.getDescurtidas()), postagem.getData());
+                redeSocial.postagensCadastradas()) {
+                String conteudo = String.join("&&", String.valueOf(postagem.getPerfil().getId()),
+                        postagem.getTexto(), String.valueOf(postagem.getCurtidas()),
+                        String.valueOf(postagem.getDescurtidas()), postagem.getData());
             if (!(postagem instanceof PostagemAvancada)){
                 conteudo += "&&P\n";
             } else {
@@ -256,46 +254,49 @@ public class App {
 
     }
 
-    public static void lerArquivo() throws IOException {
+    public static void lerPerfisArquivo() throws IOException {
         File filePerfis = new File("Avaliacao01\\perfis.txt");
-        File filePostagens = new File("Avaliacao01\\postagens.txt");
         FileReader fileReaderPerfis = new FileReader(filePerfis);
-        FileReader fileReaderPostagens = new FileReader(filePostagens);
         BufferedReader bufferedReaderPerfis = new BufferedReader(fileReaderPerfis);
-        BufferedReader bufferedReaderPostagens = new BufferedReader(fileReaderPostagens);
 
         String linhaPerfis = bufferedReaderPerfis.readLine();
         while(linhaPerfis != null){
             String[] partes = linhaPerfis.split("&&");
-            int id = Integer.parseInt(partes[0]);
-            String nome = partes[1];
-            String email = partes[2];
-            Perfil perfil = new Perfil(nome, email, id);
+            String nome = partes[0];
+            String email = partes[1];
+            Perfil perfil = new Perfil(nome, email);
             redeSocial.incluirPerfil(perfil);
             linhaPerfis = bufferedReaderPerfis.readLine();
         }
+        bufferedReaderPerfis.close();
+    }
+
+    public static void lerPostagensArquivo() throws IOException {
+        File filePostagens = new File("Avaliacao01\\postagens.txt");
+        FileReader fileReaderPostagens = new FileReader(filePostagens);
+        BufferedReader bufferedReaderPostagens = new BufferedReader(fileReaderPostagens);
 
         String linhaPostagens = bufferedReaderPostagens.readLine();
         while(linhaPostagens != null){
             String[] partes = linhaPostagens.split("&&");
             int idPerfil = Integer.parseInt(partes[0]);
             Perfil perfil = redeSocial.consultarPerfil(idPerfil);
-            int idPostagem = Integer.parseInt(partes[1]);
-            String texto = partes[2];
-            int curtidas = Integer.parseInt(partes[3]);
-            int descurtidas = Integer.parseInt(partes[4]);
-            String data = partes[5];
-            String tipo = partes[6];
-            if(tipo == "P"){
-                Postagem postagem = new Postagem(texto, perfil, data, idPostagem, curtidas, descurtidas);
+            String texto = partes[1];
+            int curtidas = Integer.parseInt(partes[2]);
+            int descurtidas = Integer.parseInt(partes[3]);
+            String data = partes[4];
+            String tipo = partes[5];
+            if(tipo.equals("P")){
+                Postagem postagem = new Postagem(texto, perfil, data, curtidas, descurtidas);
                 redeSocial.incluirPostagem(postagem);
             } else {
-                int visualizacoesRestantes = Integer.parseInt(partes[7]);
-                List<String> hashtags = List.of(partes[8].split(","));
-                PostagemAvancada postagemAvancada = new PostagemAvancada(texto, perfil, data, idPostagem, curtidas,
+                int visualizacoesRestantes = Integer.parseInt(partes[6]);
+                List<String> hashtags = List.of(partes[7].split(","));
+                PostagemAvancada postagemAvancada = new PostagemAvancada(texto, perfil, data, curtidas,
                         descurtidas, hashtags, visualizacoesRestantes);
                 redeSocial.incluirPostagem(postagemAvancada);
             }
+            linhaPostagens = bufferedReaderPostagens.readLine();
         }
     }
 

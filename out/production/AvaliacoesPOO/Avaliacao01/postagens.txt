@@ -1,1 +1,4 @@
-1&&1&&Ola bom dia&&0&&0&&2023-10-31&&P
+2&&Faala zezé bom dia cara&&0&&0&&2023-11-06&&P
+1&&Ola boa tarde&&0&&0&&2023-11-06&&PA&&40&&ola,amigo,bom,dia,legal
+1&&Boa tarde&&0&&0&&2023-11-06&&PA&&5&&ola,amigo
+2&&boa tarde&&4&&1&&2023-11-06&&PA&&1&&ola,bom

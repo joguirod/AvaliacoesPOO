@@ -1,31 +1,33 @@
 package Avaliacao01.Entidades;
 
+import java.time.LocalDate;
+
 public class Postagem {
     private static int proximoId = 1;
     private int id;
     private String texto;
     private int curtidas = 0;
     private int descurtidas = 0;
-    private String data; // Formato yyyy-MM-dd
+    private LocalDate data; // Formato yyyy-MM-dd
     private Perfil perfil;
 
-    public Postagem(String texto, Perfil perfil, String data) {
+    public Postagem(String texto, Perfil perfil) {
         this.texto = texto;
         this.perfil = perfil;
-        this.data = data;
+        this.data = LocalDate.now();
         id = proximoId;
         proximoId++;
     }
-    public Postagem(String texto, Perfil perfil, String data, int curtidas, int descurtidas) {
+    public Postagem(String texto, Perfil perfil, int curtidas, int descurtidas) {
         this.texto = texto;
         this.perfil = perfil;
-        this.data = data;
+        this.data = LocalDate.now();
         this.curtidas = curtidas;
         id = proximoId;
         proximoId++;
     }
 
-    public Postagem(String texto, int curtidas, int descurtidas, String data, Perfil perfil) {
+    public Postagem(String texto, Perfil perfil, int curtidas, int descurtidas, LocalDate data) {
         this.texto = texto;
         this.curtidas = curtidas;
         this.descurtidas = descurtidas;
@@ -63,7 +65,7 @@ public class Postagem {
         return descurtidas;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 

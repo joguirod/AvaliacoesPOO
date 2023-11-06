@@ -31,6 +31,12 @@ public class RepositorioDePerfis {
         return null;
     }
 
+    public Perfil obterUltimoPerfil(){
+        int tamanhoRepositorio = getPerfis().size();
+        return perfis.get(tamanhoRepositorio - 1);
+    }
+
+
     public List<Perfil> getPerfis(){
         return perfis;
     }

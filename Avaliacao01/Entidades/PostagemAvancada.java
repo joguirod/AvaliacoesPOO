@@ -1,5 +1,6 @@
 package Avaliacao01.Entidades;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,21 +8,21 @@ public class PostagemAvancada extends Postagem{
     private List<String> hashtags = new ArrayList<String>();
     private int visualizacoesRestantes;
 
-    public PostagemAvancada(String texto, int curtidas, int descurtidas, String data, Perfil perfil
+    public PostagemAvancada(String texto, Perfil perfil, int curtidas, int descurtidas, LocalDate data
             , List<String> hashtags, int visualizacoesRestantes) {
-        super(texto, curtidas, descurtidas, data, perfil);
+        super(texto, perfil, curtidas, descurtidas, data);
         this.hashtags = hashtags;
         this.visualizacoesRestantes = visualizacoesRestantes;
     }
 
-    public PostagemAvancada(String texto, Perfil perfil, String data, int curtidas, int descurtidas, List<String> hashtags, int visualizacoesRestantes) {
-        super(texto, perfil, data, curtidas, descurtidas);
+    public PostagemAvancada(String texto, Perfil perfil, int curtidas, int descurtidas, List<String> hashtags, int visualizacoesRestantes) {
+        super(texto, perfil, curtidas, descurtidas);
         this.hashtags = hashtags;
         this.visualizacoesRestantes = visualizacoesRestantes;
     }
 
-    public PostagemAvancada(String texto, Perfil perfil, String data, List<String> hashtags, int visualizacoesRestantes) {
-        super(texto, perfil, data);
+    public PostagemAvancada(String texto, Perfil perfil, List<String> hashtags, int visualizacoesRestantes) {
+        super(texto, perfil);
         this.hashtags = hashtags;
         this.visualizacoesRestantes = visualizacoesRestantes;
     }

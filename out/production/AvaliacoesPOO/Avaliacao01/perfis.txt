@@ -1,2 +1,2 @@
-1&&jOSE&&gui@gmail.com
-2&&Vitor&&vitor@gmail.com
+Jose&&gui@gmail.com
+Vitor&&vitorhudo@gmail.com

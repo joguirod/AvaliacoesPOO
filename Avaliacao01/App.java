@@ -30,90 +30,74 @@ public class App {
 
             scanner.nextLine();
             meuCtrlL(20);
+            exibirLogo();
 
             switch (opcao) {
                 case 1:
-                    exibirLogo();
                     incluirPerfil();
                     meuContinue(1);
                     break;
                 case 2:
-                    exibirLogo();
                     consultarPerfil();
                     meuContinue(2);
                     break;
                 case 3:
-                    exibirLogo();
                     exibirPerfis();
                     meuContinue(1);
                     break;
                 case 4:
-                    exibirLogo();
                     incluirPostagem();
                     meuContinue(1);
                     break;
                 case 5:
-                    exibirLogo();
                     consultarPostagem();
                     meuContinue(2);
                     break;
                 case 6:
-                    exibirLogo();
                     curtirPostagem();
                     meuContinue(1);
                     break;
                 case 7:
-                    exibirLogo();
                     descurtirPostagem();
                     meuContinue(1);
                     break;
                 case 8:
-                    exibirLogo();
                     decrementarVisualizacoesRestantes();
                     meuContinue(1);
                     break;
                 case 9:
-                    exibirLogo();
                     exibirPostagensPorPerfil();
                     meuContinue(1);
                     break;
                 case 10:
-                    exibirLogo();
                     exibirPostagensPorHashtag();
                     meuContinue(1);
                     break;
                 case 11:
-                    exibirLogo();
                     exibirPostagensPopulares();
                     meuContinue(1);
                     break;
                 case 12:
-                    exibirLogo();
                     exibirHashtagsPopulares();
                     meuContinue(1);
                     break;
                 case 13:
-                    exibirLogo();
                     exibirPostagemMaisCurtida();
                     meuContinue(1);
                     break;
                 case 14:
-                    exibirLogo();
                     exibirPostagemMaisDescurtida();
                     meuContinue(1);
                     break;
                 case 15:
-                    exibirLogo();
                     exibirPostagemMaisVisualizacoesRestantes();
                     meuContinue(1);
                     break;
                 case 0:
-                    exibirLogo();
                     System.out.println("Tchau bb :)");
                     scanner.nextLine();
                     break;
                 default:
-                    exibirLogo();
                     System.out.println("Opção inválida!");
                     meuCtrlL(1);
                     break;

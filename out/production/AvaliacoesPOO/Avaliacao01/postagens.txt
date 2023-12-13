@@ -1,4 +1,5 @@
 2&&Faala zezé bom dia cara&&0&&0&&2023-11-06&&P
-1&&Ola boa tarde&&0&&0&&2023-11-06&&PA&&40&&ola,amigo,bom,dia,legal
+1&&Ola boa tarde&&0&&0&&2023-11-06&&PA&&39&&ola,amigo,bom,dia,legal
 1&&Boa tarde&&0&&0&&2023-11-06&&PA&&5&&ola,amigo
 2&&boa tarde&&4&&1&&2023-11-06&&PA&&1&&ola,bom
+4&&O botafogo foi roubado e eu sou um otário chorão, abram os portões da coitadolândia pra mim pfv&&0&&0&&2023-11-07&&PA&&9&&apito,amigo
